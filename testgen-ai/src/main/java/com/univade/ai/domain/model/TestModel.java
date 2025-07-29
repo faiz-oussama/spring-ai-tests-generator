@@ -1,6 +1,4 @@
 package com.univade.ai.domain.model;
-
-import com.univade.ai.domain.value.DifficultyLevel;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +11,6 @@ public class TestModel {
     private List<String> fields;
     private List<String> annotations;
     private String generatedTestCode;
-    private DifficultyLevel difficultyLevel;
     private String sessionId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -52,8 +49,6 @@ public class TestModel {
     public String getGeneratedTestCode() { return generatedTestCode; }
     public void setGeneratedTestCode(String generatedTestCode) { this.generatedTestCode = generatedTestCode; }
 
-    public DifficultyLevel getDifficultyLevel() { return difficultyLevel; }
-    public void setDifficultyLevel(DifficultyLevel difficultyLevel) { this.difficultyLevel = difficultyLevel; }
 
     public String getSessionId() { return sessionId; }
     public void setSessionId(String sessionId) { this.sessionId = sessionId; }

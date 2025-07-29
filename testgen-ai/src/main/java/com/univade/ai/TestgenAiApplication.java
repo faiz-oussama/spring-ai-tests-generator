@@ -1,4 +1,4 @@
-package com.univade.testgen_ai;
+package com.univade.ai;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

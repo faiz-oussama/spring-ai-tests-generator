@@ -1,19 +1,25 @@
 package com.univade.ai.infrastructure.ai;
 
+import com.univade.ai.domain.model.EntityMetaModel;
+import com.univade.ai.domain.value.TargetLayer;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OpenAiClient {
-    
-    public String generateTest(String prompt) {
+
+    public String generateTests(String prompt) {
         return null;
     }
-    
-    public String refineTest(String originalTest, String refinementPrompt) {
+
+    public String generateTestsForLayer(EntityMetaModel entityMetaModel, TargetLayer targetLayer) {
         return null;
     }
-    
-    public String analyzeSourceCode(String sourceCode) {
+
+    public String refineTests(String originalTests, String refinementPrompt) {
+        return null;
+    }
+
+    public EntityMetaModel analyzeSourceCode(String sourceCode) {
         return null;
     }
 }

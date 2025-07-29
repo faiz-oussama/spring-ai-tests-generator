@@ -1,43 +1,35 @@
 package com.univade.ai.domain.model;
 
-import com.univade.ai.domain.value.DifficultyLevel;
+import com.univade.ai.domain.value.TargetLayer;
 import java.util.Map;
 
 public class PromptContext {
     private String sessionId;
-    private String sourceCode;
-    private String className;
-    private DifficultyLevel difficultyLevel;
-    private String testType;
-    private Map<String, Object> metadata;
+    private EntityMetaModel entityMetaModel;
+    private TargetLayer targetLayer;
     private String additionalInstructions;
+    private Map<String, Object> metadata;
 
     public PromptContext() {}
 
-    public PromptContext(String sessionId, String sourceCode, String className) {
+    public PromptContext(String sessionId, EntityMetaModel entityMetaModel, TargetLayer targetLayer) {
         this.sessionId = sessionId;
-        this.sourceCode = sourceCode;
-        this.className = className;
+        this.entityMetaModel = entityMetaModel;
+        this.targetLayer = targetLayer;
     }
 
     public String getSessionId() { return sessionId; }
     public void setSessionId(String sessionId) { this.sessionId = sessionId; }
 
-    public String getSourceCode() { return sourceCode; }
-    public void setSourceCode(String sourceCode) { this.sourceCode = sourceCode; }
+    public EntityMetaModel getEntityMetaModel() { return entityMetaModel; }
+    public void setEntityMetaModel(EntityMetaModel entityMetaModel) { this.entityMetaModel = entityMetaModel; }
 
-    public String getClassName() { return className; }
-    public void setClassName(String className) { this.className = className; }
-
-    public DifficultyLevel getDifficultyLevel() { return difficultyLevel; }
-    public void setDifficultyLevel(DifficultyLevel difficultyLevel) { this.difficultyLevel = difficultyLevel; }
-
-    public String getTestType() { return testType; }
-    public void setTestType(String testType) { this.testType = testType; }
-
-    public Map<String, Object> getMetadata() { return metadata; }
-    public void setMetadata(Map<String, Object> metadata) { this.metadata = metadata; }
+    public TargetLayer getTargetLayer() { return targetLayer; }
+    public void setTargetLayer(TargetLayer targetLayer) { this.targetLayer = targetLayer; }
 
     public String getAdditionalInstructions() { return additionalInstructions; }
     public void setAdditionalInstructions(String additionalInstructions) { this.additionalInstructions = additionalInstructions; }
+
+    public Map<String, Object> getMetadata() { return metadata; }
+    public void setMetadata(Map<String, Object> metadata) { this.metadata = metadata; }
 }

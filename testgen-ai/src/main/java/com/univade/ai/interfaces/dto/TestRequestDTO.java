@@ -1,12 +1,11 @@
 package com.univade.ai.interfaces.dto;
 
-import com.univade.ai.domain.value.DifficultyLevel;
+import com.univade.ai.domain.value.TargetLayer;
 
 public class TestRequestDTO {
     private String sourceCode;
     private String className;
-    private DifficultyLevel difficultyLevel;
-    private String testType;
+    private TargetLayer targetLayer;
     private String additionalInstructions;
     private String sessionId;
 
@@ -18,11 +17,8 @@ public class TestRequestDTO {
     public String getClassName() { return className; }
     public void setClassName(String className) { this.className = className; }
 
-    public DifficultyLevel getDifficultyLevel() { return difficultyLevel; }
-    public void setDifficultyLevel(DifficultyLevel difficultyLevel) { this.difficultyLevel = difficultyLevel; }
-
-    public String getTestType() { return testType; }
-    public void setTestType(String testType) { this.testType = testType; }
+    public TargetLayer getTargetLayer() { return targetLayer; }
+    public void setTargetLayer(TargetLayer targetLayer) { this.targetLayer = targetLayer; }
 
     public String getAdditionalInstructions() { return additionalInstructions; }
     public void setAdditionalInstructions(String additionalInstructions) { this.additionalInstructions = additionalInstructions; }
