@@ -25,25 +25,27 @@ public class TestGenerationController {
     @PostMapping("/generate")
     public ResponseEntity<TestResponseDTO> generateTest(@RequestBody TestRequestDTO request) {
         try {
-            TestGenerationResult result = generateTestsUseCase.generateFromUserInput(request.getUserInput());
+            TestGenerationResult result = hasSourceCode(request)
+                ? generateTestsUseCase.generateFromUserInput(request.getUserInput(), request.getClassSourceCode())
+                : generateTestsUseCase.generateFromUserInput(request.getUserInput());
+
             TestResponseDTO response = convertToResponseDTO(result);
 
-            if ("ERROR".equals(result.getStatus())) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-            }
-
-            return ResponseEntity.ok(response);
+            return "ERROR".equals(result.getStatus())
+                ? ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response)
+                : ResponseEntity.ok(response);
 
         } catch (IllegalArgumentException e) {
-            logger.warn("Invalid request: {}", e.getMessage());
-            TestResponseDTO errorResponse = createErrorResponse(null, e.getMessage());
-            return ResponseEntity.badRequest().body(errorResponse);
-
+            return ResponseEntity.badRequest().body(createErrorResponse(null, e.getMessage()));
         } catch (Exception e) {
             logger.error("Error generating tests", e);
-            TestResponseDTO errorResponse = createErrorResponse(null, "Internal server error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(createErrorResponse(null, "Internal server error"));
         }
+    }
+
+    private boolean hasSourceCode(TestRequestDTO request) {
+        return request.getClassSourceCode() != null && !request.getClassSourceCode().trim().isEmpty();
     }
 
 

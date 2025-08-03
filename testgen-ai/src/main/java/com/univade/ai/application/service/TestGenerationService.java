@@ -77,8 +77,6 @@ public class TestGenerationService {
     }
 
     public List<TestGenerationResult> generateMultipleTests(List<PromptContext> contexts) {
-        logger.info("Generating tests for {} contexts", contexts.size());
-
         return contexts.stream()
                 .map(this::generateTests)
                 .collect(Collectors.toList());
@@ -120,14 +118,12 @@ public class TestGenerationService {
         }
     }
 
-    public PromptContext buildContext(String userInput, String sessionId) {
-        PromptContext context = new PromptContext(
-            sessionId != null ? sessionId : UUID.randomUUID().toString(),
-            userInput
-        );
+    public PromptContext buildContext(String userInput) {
+        return new PromptContext(UUID.randomUUID().toString(), userInput);
+    }
 
-        logger.debug("Built context for user input: {}", userInput);
-        return context;
+    public PromptContext buildContext(String userInput, String classSourceCode) {
+        return new PromptContext(UUID.randomUUID().toString(), userInput, classSourceCode);
     }
 
     public Optional<PromptContext> getContext(String sessionId) {
@@ -135,7 +131,6 @@ public class TestGenerationService {
     }
 
     public void deleteSession(String sessionId) {
-        logger.info("Deleting session: {}", sessionId);
         memoryRepository.deleteBySessionId(sessionId);
     }
 }

@@ -3,15 +3,10 @@ package com.univade.ai.application.usecase;
 import com.univade.ai.application.service.TestGenerationService;
 import com.univade.ai.domain.model.PromptContext;
 import com.univade.ai.domain.model.TestGenerationResult;
-import com.univade.ai.domain.value.TargetLayer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GenerateTestsUseCase {
-
-    private static final Logger logger = LoggerFactory.getLogger(GenerateTestsUseCase.class);
 
     private final TestGenerationService testGenerationService;
 
@@ -20,28 +15,24 @@ public class GenerateTestsUseCase {
     }
 
     public TestGenerationResult execute(PromptContext context) {
-        logger.info("Executing test generation use case for user input: {}", context.getUserInput());
-
         validateContext(context);
-
         return testGenerationService.generateTests(context);
     }
 
     public TestGenerationResult generateFromUserInput(String userInput) {
-        logger.info("Generating tests for user input: {}", userInput);
-
         validateUserInput(userInput);
+        PromptContext context = testGenerationService.buildContext(userInput);
+        return testGenerationService.generateTests(context);
+    }
 
-        PromptContext context = testGenerationService.buildContext(userInput, null);
-
+    public TestGenerationResult generateFromUserInput(String userInput, String classSourceCode) {
+        validateUserInput(userInput);
+        PromptContext context = testGenerationService.buildContext(userInput, classSourceCode);
         return testGenerationService.generateTests(context);
     }
 
     public TestGenerationResult refineTests(String sessionId, String refinementPrompt) {
-        logger.info("Refining tests for session: {}", sessionId);
-
         validateRefinementInputs(sessionId, refinementPrompt);
-
         return testGenerationService.refineExistingTests(sessionId, refinementPrompt);
     }
 
