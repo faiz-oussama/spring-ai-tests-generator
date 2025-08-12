@@ -4,17 +4,22 @@ import java.time.LocalDateTime;
 
 public class TestResponseDTO {
     private String sessionId;
+    private String conversationId;
     private String generatedTestCode;
     private String className;
     private String targetLayer;
     private String status;
     private String errorMessage;
     private LocalDateTime generatedAt;
+    private boolean isNewConversation;
 
     public TestResponseDTO() {}
 
     public String getSessionId() { return sessionId; }
     public void setSessionId(String sessionId) { this.sessionId = sessionId; }
+
+    public String getConversationId() { return conversationId; }
+    public void setConversationId(String conversationId) { this.conversationId = conversationId; }
 
     public String getGeneratedTestCode() { return generatedTestCode; }
     public void setGeneratedTestCode(String generatedTestCode) { this.generatedTestCode = generatedTestCode; }
@@ -33,4 +38,7 @@ public class TestResponseDTO {
 
     public LocalDateTime getGeneratedAt() { return generatedAt; }
     public void setGeneratedAt(LocalDateTime generatedAt) { this.generatedAt = generatedAt; }
+
+    public boolean isNewConversation() { return isNewConversation; }
+    public void setNewConversation(boolean newConversation) { isNewConversation = newConversation; }
 }

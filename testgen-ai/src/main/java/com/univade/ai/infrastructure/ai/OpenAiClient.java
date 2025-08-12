@@ -16,7 +16,8 @@ public class OpenAiClient {
     private final ChatClient chatClient;
     private final ObjectMapper objectMapper;
 
-    public OpenAiClient(ChatClient chatClient, ObjectMapper objectMapper) {
+    public OpenAiClient(ChatClient chatClient,
+                       ObjectMapper objectMapper) {
         this.chatClient = chatClient;
         this.objectMapper = objectMapper;
     }
@@ -57,6 +58,48 @@ public class OpenAiClient {
 
         } catch (Exception e) {
             logger.error("Error refining tests with AI", e);
+            return createErrorResult("Failed to refine tests: " + e.getMessage());
+        }
+    }
+
+    public TestGenerationResult generateTestsWithMemory(String systemPrompt, String userPrompt, String conversationId) {
+        try {
+            String response = chatClient.prompt()
+                .system(systemPrompt)
+                .user(userPrompt)
+                .advisors(advisorSpec -> advisorSpec.param("conversationId", conversationId))
+                .call()
+                .content();
+
+            if (response == null || response.trim().isEmpty()) {
+                return createErrorResult("Empty response from AI");
+            }
+
+            return parseAiResponse(response);
+
+        } catch (Exception e) {
+            logger.error("Error generating tests with memory for conversation: {}", conversationId, e);
+            return createErrorResult("Failed to generate tests: " + e.getMessage());
+        }
+    }
+
+    public TestGenerationResult refineTestsWithMemory(String systemPrompt, String refinementPrompt, String conversationId) {
+        try {
+            String response = chatClient.prompt()
+                .system(systemPrompt)
+                .user(refinementPrompt)
+                .advisors(advisorSpec -> advisorSpec.param("conversationId", conversationId))
+                .call()
+                .content();
+
+            if (response == null || response.trim().isEmpty()) {
+                return createErrorResult("Empty response from AI");
+            }
+
+            return parseAiResponse(response);
+
+        } catch (Exception e) {
+            logger.error("Error refining tests with memory for conversation: {}", conversationId, e);
             return createErrorResult("Failed to refine tests: " + e.getMessage());
         }
     }

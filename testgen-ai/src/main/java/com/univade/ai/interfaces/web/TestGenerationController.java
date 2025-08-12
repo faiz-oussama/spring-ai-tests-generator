@@ -1,6 +1,8 @@
 package com.univade.ai.interfaces.web;
 
+import com.univade.ai.application.service.TestGenerationService;
 import com.univade.ai.application.usecase.GenerateTestsUseCase;
+import com.univade.ai.domain.model.PromptContext;
 import com.univade.ai.domain.model.TestGenerationResult;
 import com.univade.ai.interfaces.dto.TestRequestDTO;
 import com.univade.ai.interfaces.dto.TestResponseDTO;
@@ -13,23 +15,19 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/test-generation")
 public class TestGenerationController {
+    private final TestGenerationService testGenerationService;
 
-    private static final Logger logger = LoggerFactory.getLogger(TestGenerationController.class);
-
-    private final GenerateTestsUseCase generateTestsUseCase;
-
-    public TestGenerationController(GenerateTestsUseCase generateTestsUseCase) {
-        this.generateTestsUseCase = generateTestsUseCase;
+    public TestGenerationController(TestGenerationService testGenerationService) {
+        this.testGenerationService = testGenerationService;
     }
 
     @PostMapping("/generate")
     public ResponseEntity<TestResponseDTO> generateTest(@RequestBody TestRequestDTO request) {
         try {
-            TestGenerationResult result = hasSourceCode(request)
-                ? generateTestsUseCase.generateFromUserInput(request.getUserInput(), request.getClassSourceCode())
-                : generateTestsUseCase.generateFromUserInput(request.getUserInput());
-
-            TestResponseDTO response = convertToResponseDTO(result);
+           
+            PromptContext context = buildContextAwarePromptContext(request);
+            TestGenerationResult result = testGenerationService.generateTestsWithMemory(context);
+            TestResponseDTO response = convertToContextAwareResponseDTO(result);
 
             return "ERROR".equals(result.getStatus())
                 ? ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response)
@@ -38,15 +36,41 @@ public class TestGenerationController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(createErrorResponse(null, e.getMessage()));
         } catch (Exception e) {
-            logger.error("Error generating tests", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(createErrorResponse(null, "Internal server error"));
         }
     }
 
-    private boolean hasSourceCode(TestRequestDTO request) {
-        return request.getClassSourceCode() != null && !request.getClassSourceCode().trim().isEmpty();
+    private PromptContext buildContextAwarePromptContext(TestRequestDTO request) {
+        if (request.isContinuingConversation()) {
+            PromptContext context = new PromptContext(
+                    request.getSessionId(),
+                    request.getConversationId(),
+                    request.getUserInput(),
+                    request.getClassSourceCode());
+            context.setUseConversationMemory(true);
+            return context;
+        } else {
+            PromptContext context = testGenerationService.buildConversationContext(
+                    request.getUserInput(),
+                    request.getClassSourceCode(),
+                    true);
+
+            if (request.getSessionId() != null) {
+                context.setSessionId(request.getSessionId());
+            }
+
+            return context;
+        }
     }
+
+    private TestResponseDTO convertToContextAwareResponseDTO(TestGenerationResult result) {
+        TestResponseDTO response = convertToResponseDTO(result);
+        response.setConversationId(result.getConversationId());
+        response.setNewConversation(result.isNewConversation());
+        return response;
+    }
+
 
 
 
@@ -76,4 +100,6 @@ public class TestGenerationController {
         response.setErrorMessage(errorMessage);
         return response;
     }
+
+
 }

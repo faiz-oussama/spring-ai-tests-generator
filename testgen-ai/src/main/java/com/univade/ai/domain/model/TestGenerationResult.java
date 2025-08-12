@@ -8,6 +8,8 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TestGenerationResult {
     private String sessionId;
+    private String conversationId;
+    private boolean newConversation;
     private TestMetadata metadata;
     @JsonProperty("test_class")
     private TestClass testClass;
@@ -33,6 +35,12 @@ public class TestGenerationResult {
     public String getSessionId() { return sessionId; }
     public void setSessionId(String sessionId) { this.sessionId = sessionId; }
 
+    public String getConversationId() { return conversationId; }
+    public void setConversationId(String conversationId) { this.conversationId = conversationId; }
+
+    public boolean isNewConversation() { return newConversation; }
+    public void setNewConversation(boolean newConversation) { this.newConversation = newConversation; }
+
     public TestMetadata getMetadata() { return metadata; }
     public void setMetadata(TestMetadata metadata) { this.metadata = metadata; }
 
@@ -54,7 +62,11 @@ public class TestGenerationResult {
     public String getErrorMessage() { return errorMessage; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
-    // Inner classes for structured data
+    public String getGeneratedTest() {
+        return testClass != null ? testClass.getSourceCode() : null;
+    }
+
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class TestMetadata {
         @JsonProperty("component_type")
