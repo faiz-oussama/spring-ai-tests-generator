@@ -12,7 +12,7 @@ TestGen AI is an intelligent test generation system that leverages OpenAI's GPT-
 
 ## 🌟 Features
 
-### 🤖 Intelligent Test Generation
+### Intelligent Test Generation
 - **AI-Powered Analysis**: Uses GPT-4o to understand code structure and generate appropriate tests
 - **Multi-Layer Support**: Generates tests for Repository, Service, Controller, and Integration layers
 - **Production-Ready Code**: Creates executable tests with proper mocking, assertions, and error handling
@@ -22,7 +22,7 @@ TestGen AI is an intelligent test generation system that leverages OpenAI's GPT-
 - **Session Management**: Supports multiple concurrent user sessions
 - **Interactive Refinement**: Allows users to request modifications and improvements
 
-### 🏗️ Enterprise-Grade Standards
+### Enterprise-Grade Standards
 - **JUnit 5 + Mockito + AssertJ**: Uses modern testing frameworks and best practices
 - **Spring Boot Test Slices**: Leverages `@DataJpaTest`, `@WebMvcTest`, and other specialized annotations
 - **Comprehensive Coverage**: Includes happy path, edge cases, and error conditions
@@ -32,7 +32,7 @@ TestGen AI is an intelligent test generation system that leverages OpenAI's GPT-
 - **Customizable Prompts**: Extensible prompt engineering system
 - **Output Management**: Organized test file generation with metadata tracking
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -71,7 +71,7 @@ TestGen AI is an intelligent test generation system that leverages OpenAI's GPT-
    curl http://localhost:8080/api/test-generation/health
    ```
 
-## 📚 Usage
+## Usage
 
 ### REST API Endpoint
 
@@ -133,7 +133,7 @@ curl -X POST http://localhost:8080/api/test-generation/generate \
   }'
 ```
 
-## 🏗️ Architecture
+## Architecture
 
 ### System Overview
 
@@ -208,7 +208,7 @@ logging.level.org.springframework.ai=INFO
 logging.level.org.springframework.ai.chat.memory=DEBUG
 ```
 
-## 🧪 Generated Test Examples
+## Generated Test Examples
 
 ### Service Layer Test
 
@@ -398,12 +398,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Spring AI](https://docs.spring.io/spring-ai/reference/) team for the excellent AI integration framework
 - [OpenAI](https://openai.com/) for providing powerful language models
 - [Spring Boot](https://spring.io/projects/spring-boot) community for the robust application framework
-
-## 📞 Support
-
-- **Documentation**: [Wiki](https://github.com/your-username/testgen-ai/wiki)
-- **Issues**: [GitHub Issues](https://github.com/your-username/testgen-ai/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/testgen-ai/discussions)
-- **Email**: support@testgen-ai.com
 
 ---
