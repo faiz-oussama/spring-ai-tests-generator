@@ -1,7 +1,6 @@
 package com.univade.ai.application.service;
 
 import com.univade.ai.domain.model.ConversationContext;
-import com.univade.ai.domain.model.ConversationStatus;
 import com.univade.ai.domain.model.ConversationSummary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
