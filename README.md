@@ -1,4 +1,4 @@
-# TestGen AI 🧪
+# Unit Test Generator for Spring Boot Applications
 
 > **Unit Test Generation for Spring Boot Applications via user prompts**
 
